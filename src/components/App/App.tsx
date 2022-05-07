@@ -13,6 +13,7 @@ import './App.css'
 
 const App: React.FC<Props> = ({
   address,
+  balance,
   isConnected,
   onConnect,
   isConnecting,
@@ -36,6 +37,10 @@ const App: React.FC<Props> = ({
               <p>
                 <strong>Address:</strong>&nbsp;
                 {address.slice(0, 6) + '...' + address.slice(-4)}
+              </p>
+              <p>
+                <strong>Balance:</strong>&nbsp;
+                {balance}
               </p>
             </Card>
           )}
