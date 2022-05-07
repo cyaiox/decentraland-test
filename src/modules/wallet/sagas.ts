@@ -1,9 +1,12 @@
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import {
   connectWalletFailure,
   connectWalletSuccess,
   CONNECT_WALLET_REQUEST,
+  balanceTokenSuccess,
+  balanceTokenFailure,
+  BALANCE_TOKEN_REQUEST,
 } from './actions'
 import { WindowWithEthereum } from './types'
 
@@ -31,6 +34,7 @@ export const TOKEN_ABI = [
 
 export function* walletSaga() {
   yield takeEvery(CONNECT_WALLET_REQUEST, handleConnectWalletRequest)
+  yield takeEvery(BALANCE_TOKEN_REQUEST, handleBalanceTokenRequest)
 }
 
 function* handleConnectWalletRequest() {
@@ -44,5 +48,21 @@ function* handleConnectWalletRequest() {
     yield put(connectWalletSuccess(address))
   } catch (error: any) {
     yield put(connectWalletFailure(error.message))
+  }
+}
+
+function* handleBalanceTokenRequest() {
+  try {
+    const provider = new ethers.providers.Web3Provider(
+      windowWithEthereum.ethereum
+    )
+    yield call(() => provider.send('eth_requestAccounts', []))
+    const signer = provider.getSigner()
+    const address: string = yield call(() => signer.getAddress())
+    const token = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, provider)
+    const balance: BigNumber = yield call(() => token.balanceOf(address))
+    yield put(balanceTokenSuccess(balance.toNumber()))
+  } catch (error: any) {
+    yield put(balanceTokenFailure(error.message))
   }
 }
