@@ -27,9 +27,18 @@ const App: React.FC<Props> = ({
     if (isTransfered) setOpenTransferModal(false);
   }, [isTransfered]);
 
+  const TransferButton: React.FC<{ isConnected: boolean }> = ({ isConnected }) => {
+    if (isConnected)
+      return (
+        <Button primary>Transfer</Button>
+      )
+    else
+      return (<></>)
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar rightMenu={<TransferButton isConnected={isConnected} />} />
       <Page className="App">
         <Center>
           {!isConnected ? (

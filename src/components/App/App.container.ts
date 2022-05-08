@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { connectWalletRequest, balanceTokenRequest } from '../../modules/wallet/actions'
+import { connectWalletRequest } from '../../modules/wallet/actions'
 import {
   getAddress,
   getBalance,
@@ -24,7 +24,6 @@ const mapState = (state: RootState): MapStateProps => ({
 const mapDispatch = (dispatch: MapDispatch): MapDispatchProps => ({
   onConnect: () => {
     dispatch(connectWalletRequest())
-    dispatch(balanceTokenRequest())
   },
 })
 

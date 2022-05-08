@@ -59,6 +59,9 @@ function* handleConnectWalletRequest() {
     const signer: ethers.Signer = yield call(() => getSigner())
     const address: string = yield call(() => signer.getAddress())
     yield put(connectWalletSuccess(address))
+
+    // Get the balance after successfully sending the transfer
+    yield call(handleBalanceTokenRequest);
   } catch (error: any) {
     yield put(connectWalletFailure(error.message))
   }
