@@ -12,6 +12,14 @@ import { Props } from './App.types'
 import './App.css'
 import { TransferModal } from '../TransferModal'
 
+const Balance: React.FC<{ balance: number, openTransferModal: () => void }> = ({ balance, openTransferModal }) => (
+  <p>
+    <strong>Balance:</strong>{' '}
+    {balance}{' '}{'DUMMY'}{' '}
+    <Button basic onClick={openTransferModal}>Transfer</Button>
+  </p>
+)
+
 const App: React.FC<Props> = ({
   address,
   balance,
@@ -22,6 +30,10 @@ const App: React.FC<Props> = ({
   error,
 }) => {
   const [openTransferModal, setOpenTransferModal] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (isTransfered) setOpenTransferModal(false);
+  }, [isTransfered]);
 
   return (
     <>
@@ -42,18 +54,14 @@ const App: React.FC<Props> = ({
                 <strong>Address:</strong>&nbsp;
                 {address.slice(0, 6) + '...' + address.slice(-4)}
               </p>
-              <p>
-                <strong>Balance:</strong>{' '}
-                {balance}{' '}{'DUMMY'}{' '}
-                <Button basic onClick={() => setOpenTransferModal(true)}>Transfer</Button>
-              </p>
+              <Balance balance={balance} openTransferModal={() => setOpenTransferModal(true)} />
             </Card>
           )}
         </Center>
       </Page>
       <Footer />
       <TransferModal
-        open={openTransferModal && !isTransfered}
+        open={openTransferModal}
         close={() => setOpenTransferModal(false)}
       />
     </>

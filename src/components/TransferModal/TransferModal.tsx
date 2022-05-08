@@ -18,16 +18,17 @@ const TransferModal: React.FC<ModalProps> = ({ open, isTransfering, onTransfer, 
     return BigNumber.from(value).toNumber();
   }
 
-  const reset = () => {
-    setAddress('');
-    setAmount(0);
-    close();
-  }
+  React.useEffect(() => {
+    if (!open) {
+      setAddress('');
+      setAmount(0);
+    }
+  }, [open]);
 
   return (
     <>
       <div className="Modal-story">
-        <Modal size="small" open={open} closeIcon={<Close onClick={reset} />} closable='true'>
+        <Modal size="small" open={open} closeIcon={<Close onClick={close} />} closable='true'>
           <div className="Modal-transfer-header">
             <Center>
               <h1 className='ui header'>Transfer</h1>
