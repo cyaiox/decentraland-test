@@ -7,6 +7,9 @@ import {
   balanceTokenSuccess,
   balanceTokenFailure,
   BALANCE_TOKEN_REQUEST,
+  tokenTransferFailure,
+  tokenTransferSuccess,
+  TOKEN_TRANSFER_REQUEST,
 } from './actions'
 import { WindowWithEthereum } from './types'
 
@@ -17,6 +20,18 @@ const windowWithEthereum = window as unknown as WindowWithEthereum
 export const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS!
 if (!TOKEN_ADDRESS) {
   console.error(`Missing env variable REACT_APP_TOKEN_ADDRESS`)
+}
+
+const getSigner = async (): Promise<ethers.Signer> => {
+  const provider = new ethers.providers.Web3Provider(
+    windowWithEthereum.ethereum
+  )
+  await provider.send('eth_requestAccounts', [])
+  return provider.getSigner()
+}
+
+const getToken = (signerOrProvider: ethers.Signer): ethers.Contract => {
+  return new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signerOrProvider)
 }
 
 /* This is the Dummy Token ABI (application binary interface)
@@ -35,15 +50,12 @@ export const TOKEN_ABI = [
 export function* walletSaga() {
   yield takeEvery(CONNECT_WALLET_REQUEST, handleConnectWalletRequest)
   yield takeEvery(BALANCE_TOKEN_REQUEST, handleBalanceTokenRequest)
+  yield takeEvery(TOKEN_TRANSFER_REQUEST, handleTokenTransferRequest)
 }
 
 function* handleConnectWalletRequest() {
   try {
-    const provider = new ethers.providers.Web3Provider(
-      windowWithEthereum.ethereum
-    )
-    yield call(() => provider.send('eth_requestAccounts', []))
-    const signer = provider.getSigner()
+    const signer: ethers.Signer = yield call(() => getSigner())
     const address: string = yield call(() => signer.getAddress())
     yield put(connectWalletSuccess(address))
   } catch (error: any) {
@@ -53,16 +65,24 @@ function* handleConnectWalletRequest() {
 
 function* handleBalanceTokenRequest() {
   try {
-    const provider = new ethers.providers.Web3Provider(
-      windowWithEthereum.ethereum
-    )
-    yield call(() => provider.send('eth_requestAccounts', []))
-    const signer = provider.getSigner()
+    const signer: ethers.Signer = yield call(() => getSigner())
     const address: string = yield call(() => signer.getAddress())
-    const token = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, provider)
+    const token = getToken(signer)
     const balance: BigNumber = yield call(() => token.balanceOf(address))
     yield put(balanceTokenSuccess(balance.toNumber()))
   } catch (error: any) {
     yield put(balanceTokenFailure(error.message))
+  }
+}
+
+function* handleTokenTransferRequest(action: any) {
+  try {
+    const {address, amount} = action.payload;
+    const signer: ethers.Signer = yield call(() => getSigner())
+    const token = getToken(signer)
+    yield call(() => token.transfer(address, amount))
+    yield put(tokenTransferSuccess())
+  } catch (error: any) {
+    yield put(tokenTransferFailure(error.message))
   }
 }
