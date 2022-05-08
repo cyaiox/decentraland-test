@@ -5,11 +5,15 @@ import {
   CONNECT_WALLET_FAILURE,
   CONNECT_WALLET_REQUEST,
   CONNECT_WALLET_SUCCESS,
-  BalanceTokenSuccessAction,
   BalanceTokenFailureAction,
+  BalanceTokenSuccessAction,
+  BALANCE_TOKEN_FAILURE,
   BALANCE_TOKEN_REQUEST,
   BALANCE_TOKEN_SUCCESS,
-  BALANCE_TOKEN_FAILURE,
+  TokenTransferFailureAction,
+  TOKEN_TRANSFER_FAILURE,
+  TOKEN_TRANSFER_REQUEST,
+  TOKEN_TRANSFER_SUCCESS,
 } from './actions'
 import { WalletState } from './types'
 
@@ -17,6 +21,8 @@ const INITIAL_STATE: WalletState = {
   address: null,
   balance: null,
   isConnecting: false,
+  isTransfering: false,
+  isTransfered: false,
   error: null,
 }
 
@@ -75,6 +81,34 @@ export function walletReducer(
       return {
         ...state,
         balance: 0,
+        error,
+      }
+    }
+
+    case TOKEN_TRANSFER_REQUEST: {
+      return {
+        ...state,
+        isTransfering: true,
+        isTransfered: false,
+        error: null,
+      }
+    }
+
+    case TOKEN_TRANSFER_SUCCESS: {
+      return {
+        ...state,
+        isTransfering: false,
+        isTransfered: true,
+        error: null
+      }
+    }
+
+    case TOKEN_TRANSFER_FAILURE: {
+      const { error } = action.payload as TokenTransferFailureAction['payload']
+      return {
+        ...state,
+        isTransfering: false,
+        isTransfered: false,
         error,
       }
     }

@@ -8,6 +8,11 @@ export const BALANCE_TOKEN_REQUEST = '[Request] Balance Token'
 export const BALANCE_TOKEN_SUCCESS = '[Success] Balance Token'
 export const BALANCE_TOKEN_FAILURE = '[Failure] Balance Token'
 
+// Transfer Token
+export const TOKEN_TRANSFER_REQUEST = '[Request] Transfer Token'
+export const TOKEN_TRANSFER_SUCCESS = '[Success] Transfer Token'
+export const TOKEN_TRANSFER_FAILURE = '[Failure] Transfer Token'
+
 export function connectWalletRequest() {
   return {
     type: CONNECT_WALLET_REQUEST,
@@ -58,9 +63,38 @@ export function balanceTokenFailure(error: string) {
   }
 }
 
+export function tokenTransferRequest(address: string, amount: number) {
+  return {
+    type: TOKEN_TRANSFER_REQUEST,
+    payload: {
+      address,
+      amount,
+    },
+  }
+}
+
+export function tokenTransferSuccess() {
+  return {
+    type: TOKEN_TRANSFER_SUCCESS,
+    payload: {},
+  }
+}
+
+export function tokenTransferFailure(error: string) {
+  return {
+    type: TOKEN_TRANSFER_FAILURE,
+    payload: {
+      error
+    },
+  }
+}
+
 export type ConnectWalletRequestAction = ReturnType<typeof connectWalletRequest>
 export type ConnectWalletSuccessAction = ReturnType<typeof connectWalletSuccess>
 export type ConnectWalletFailureAction = ReturnType<typeof connectWalletFailure>
 export type BalanceTokenRequestAction = ReturnType<typeof balanceTokenRequest>
 export type BalanceTokenSuccessAction = ReturnType<typeof balanceTokenSuccess>
 export type BalanceTokenFailureAction = ReturnType<typeof balanceTokenFailure>
+export type TokenTransferRequestAction = ReturnType<typeof tokenTransferRequest>
+export type TokenTransferSuccessAction = ReturnType<typeof tokenTransferSuccess>
+export type TokenTransferFailureAction = ReturnType<typeof tokenTransferFailure>
