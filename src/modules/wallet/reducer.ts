@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux'
+import { AnyAction } from 'redux';
 import {
   ConnectWalletFailureAction,
   ConnectWalletSuccessAction,
@@ -14,8 +14,8 @@ import {
   TOKEN_TRANSFER_FAILURE,
   TOKEN_TRANSFER_REQUEST,
   TOKEN_TRANSFER_SUCCESS,
-} from './actions'
-import { WalletState } from './types'
+} from './actions';
+import { WalletState } from './types';
 
 const INITIAL_STATE: WalletState = {
   address: null,
@@ -24,7 +24,7 @@ const INITIAL_STATE: WalletState = {
   isTransfering: false,
   isTransfered: false,
   error: null,
-}
+};
 
 export function walletReducer(
   state: WalletState = INITIAL_STATE,
@@ -36,26 +36,26 @@ export function walletReducer(
         ...state,
         isConnecting: true,
         error: null,
-      }
+      };
     }
     case CONNECT_WALLET_SUCCESS: {
       const { address } =
-        action.payload as ConnectWalletSuccessAction['payload']
+        action.payload as ConnectWalletSuccessAction['payload'];
       return {
         ...state,
         isConnecting: false,
         address,
         error: null,
-      }
+      };
     }
 
     case CONNECT_WALLET_FAILURE: {
-      const { error } = action.payload as ConnectWalletFailureAction['payload']
+      const { error } = action.payload as ConnectWalletFailureAction['payload'];
       return {
         ...state,
         isConnecting: false,
         error,
-      }
+      };
     }
 
     case BALANCE_TOKEN_REQUEST: {
@@ -63,26 +63,26 @@ export function walletReducer(
         ...state,
         balance: 0,
         error: null,
-      }
+      };
     }
 
     case BALANCE_TOKEN_SUCCESS: {
       const { balance } =
-        action.payload as BalanceTokenSuccessAction['payload']
+        action.payload as BalanceTokenSuccessAction['payload'];
       return {
         ...state,
         balance,
         error: null,
-      }
+      };
     }
 
     case BALANCE_TOKEN_FAILURE: {
-      const { error } = action.payload as BalanceTokenFailureAction['payload']
+      const { error } = action.payload as BalanceTokenFailureAction['payload'];
       return {
         ...state,
         balance: 0,
         error,
-      }
+      };
     }
 
     case TOKEN_TRANSFER_REQUEST: {
@@ -91,7 +91,7 @@ export function walletReducer(
         isTransfering: true,
         isTransfered: false,
         error: null,
-      }
+      };
     }
 
     case TOKEN_TRANSFER_SUCCESS: {
@@ -99,21 +99,21 @@ export function walletReducer(
         ...state,
         isTransfering: false,
         isTransfered: true,
-        error: null
-      }
+        error: null,
+      };
     }
 
     case TOKEN_TRANSFER_FAILURE: {
-      const { error } = action.payload as TokenTransferFailureAction['payload']
+      const { error } = action.payload as TokenTransferFailureAction['payload'];
       return {
         ...state,
         isTransfering: false,
         isTransfered: false,
         error,
-      }
+      };
     }
 
     default:
-      return state
+      return state;
   }
 }

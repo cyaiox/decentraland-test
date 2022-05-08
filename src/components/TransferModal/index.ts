@@ -1,2 +1,2 @@
-import TransferModal from './TransferModal.container'
-export { TransferModal }
+import TransferModal from './TransferModal.container';
+export { TransferModal };

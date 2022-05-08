@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Button,
   Card,
@@ -7,10 +7,10 @@ import {
   Header,
   Navbar,
   Page,
-} from 'decentraland-ui'
-import { Props } from './App.types'
-import './App.css'
-import { TransferModal } from '../TransferModal'
+} from 'decentraland-ui';
+import { Props } from './App.types';
+import './App.css';
+import { TransferModal } from '../TransferModal';
 
 const App: React.FC<Props> = ({
   address,
@@ -21,20 +21,18 @@ const App: React.FC<Props> = ({
   isTransfered,
   error,
 }) => {
-  const [openTransferModal, setOpenTransferModal] = React.useState<boolean>(false);
+  const [openTransferModal, setOpenTransferModal] =
+    React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (isTransfered) setOpenTransferModal(false);
   }, [isTransfered]);
 
-  const TransferButton: React.FC<{ isConnected: boolean }> = ({ isConnected }) => {
-    if (isConnected)
-      return (
-        <Button primary>Transfer</Button>
-      )
-    else
-      return (<></>)
-  }
+  const TransferButton: React.FC<{ isConnected: boolean }> = ({
+    isConnected,
+  }) => {
+    return isConnected ? <Button primary>Transfer</Button> : <></>;
+  };
 
   return (
     <>
@@ -58,7 +56,9 @@ const App: React.FC<Props> = ({
               <p>
                 <strong>Balance:</strong>&nbsp;
                 {balance}&nbsp;{'DUMMY'}&nbsp;
-                <Button basic onClick={() => setOpenTransferModal(true)}>Transfer</Button>
+                <Button basic onClick={() => setOpenTransferModal(true)}>
+                  Transfer
+                </Button>
               </p>
             </Card>
           )}
@@ -70,7 +70,7 @@ const App: React.FC<Props> = ({
         close={() => setOpenTransferModal(false)}
       />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
