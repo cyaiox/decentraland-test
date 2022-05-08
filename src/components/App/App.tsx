@@ -12,14 +12,6 @@ import { Props } from './App.types'
 import './App.css'
 import { TransferModal } from '../TransferModal'
 
-const Balance: React.FC<{ balance: number, openTransferModal: () => void }> = ({ balance, openTransferModal }) => (
-  <p>
-    <strong>Balance:</strong>{' '}
-    {balance}{' '}{'DUMMY'}{' '}
-    <Button basic onClick={openTransferModal}>Transfer</Button>
-  </p>
-)
-
 const App: React.FC<Props> = ({
   address,
   balance,
@@ -54,7 +46,11 @@ const App: React.FC<Props> = ({
                 <strong>Address:</strong>&nbsp;
                 {address.slice(0, 6) + '...' + address.slice(-4)}
               </p>
-              <Balance balance={balance} openTransferModal={() => setOpenTransferModal(true)} />
+              <p>
+                <strong>Balance:</strong>&nbsp;
+                {balance}&nbsp;{'DUMMY'}&nbsp;
+                <Button basic onClick={() => setOpenTransferModal(true)}>Transfer</Button>
+              </p>
             </Card>
           )}
         </Center>
