@@ -8,9 +8,9 @@ import { Transfer } from '../Transfer';
 
 const App: React.FC<Props> = ({
   isConnected,
-  onConnect,
   isConnecting,
   error,
+  onConnect,
 }) => {
   const TransferButton: React.FC<{ isConnected: boolean }> = ({
     isConnected,
