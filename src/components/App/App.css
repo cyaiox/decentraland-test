@@ -6,3 +6,22 @@
   margin-top: 20px;
   color: var(--primary);
 }
+
+.Modal-transfer-header {
+  position: relative;
+  height: 100px;
+}
+
+.Modal-transfer-header span {
+  font-size: 20px;
+  color: var(--secondary-text);
+}
+
+.Modal-transfer-header input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.Modal-transfer-header input[type=number] {
+  -moz-appearance: textfield;
+}
