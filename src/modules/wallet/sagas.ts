@@ -19,6 +19,7 @@ const windowWithEthereum = window as unknown as WindowWithEthereum;
 /* This is the Dummy Token address, it identifies the token contract once deployed */
 export const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS!;
 if (!TOKEN_ADDRESS) {
+  // eslint-disable-next-line no-console
   console.error(`Missing env variable REACT_APP_TOKEN_ADDRESS`);
 }
 

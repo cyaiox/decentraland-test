@@ -27,13 +27,22 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src --ext ts --ext tsx"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "no-console": 1,
+      "prettier/prettier": 2
+    }
   },
   "browserslist": {
     "production": [
@@ -49,6 +58,8 @@
   },
   "devDependencies": {
     "@types/redux-logger": "^3.0.8",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "prettier": "2.6.2"
   }
 }
