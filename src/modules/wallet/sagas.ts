@@ -22,7 +22,7 @@ if (!TOKEN_ADDRESS) {
   console.error(`Missing env variable REACT_APP_TOKEN_ADDRESS`)
 }
 
-const getSigner = async (): Promise<ethers.Signer> => {
+const getSigner = async(): Promise<ethers.Signer> => {
   const provider = new ethers.providers.Web3Provider(
     windowWithEthereum.ethereum
   )
@@ -30,8 +30,9 @@ const getSigner = async (): Promise<ethers.Signer> => {
   return provider.getSigner()
 }
 
-const getToken = (signerOrProvider: ethers.Signer): ethers.Contract => {
-  return new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signerOrProvider)
+const getToken = async (): Promise<ethers.Contract> => {
+  const signer = await getSigner();
+  return new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, signer)
 }
 
 /* This is the Dummy Token ABI (application binary interface)
@@ -65,11 +66,11 @@ function* handleConnectWalletRequest() {
 
 function* handleBalanceTokenRequest() {
   try {
-    const signer: ethers.Signer = yield call(() => getSigner())
-    const address: string = yield call(() => signer.getAddress())
-    const token = getToken(signer)
-    const balance: BigNumber = yield call(() => token.balanceOf(address))
-    yield put(balanceTokenSuccess(balance.toNumber()))
+    const signer: ethers.Signer = yield call(() => getSigner());
+    const address: string = yield call(() => signer.getAddress());
+    const token: ethers.Contract = yield call(() => getToken());
+    const balance: BigNumber = yield call(() => token.balanceOf(address));
+    yield put(balanceTokenSuccess(balance.toNumber()));
   } catch (error: any) {
     yield put(balanceTokenFailure(error.message))
   }
@@ -78,11 +79,14 @@ function* handleBalanceTokenRequest() {
 function* handleTokenTransferRequest(action: any) {
   try {
     const {address, amount} = action.payload;
-    const signer: ethers.Signer = yield call(() => getSigner())
-    const token = getToken(signer)
-    yield call(() => token.transfer(address, amount))
-    yield put(tokenTransferSuccess())
+    const token: ethers.Contract = yield call(() => getToken());
+    const txn: ethers.ContractTransaction = yield call(() => token.transfer(address, amount));
+    yield call(() => txn.wait());
+    yield put(tokenTransferSuccess());
+
+    // Get the balance after successfully sending the transfer
+    yield call(handleBalanceTokenRequest);
   } catch (error: any) {
-    yield put(tokenTransferFailure(error.message))
+    yield put(tokenTransferFailure(error.message));
   }
 }
