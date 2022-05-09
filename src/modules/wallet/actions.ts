@@ -13,6 +13,8 @@ export const TOKEN_TRANSFER_REQUEST = '[Request] Transfer Token';
 export const TOKEN_TRANSFER_SUCCESS = '[Success] Transfer Token';
 export const TOKEN_TRANSFER_FAILURE = '[Failure] Transfer Token';
 
+export const CLEAR_ERRORS_REQUEST = '[Request] Clear Errors';
+
 export function connectWalletRequest() {
   return {
     type: CONNECT_WALLET_REQUEST,
@@ -89,6 +91,13 @@ export function tokenTransferFailure(error: string) {
   };
 }
 
+export function clearErrorsRequest() {
+  return {
+    type: CLEAR_ERRORS_REQUEST,
+    payload: {},
+  };
+}
+
 export type ConnectWalletRequestAction = ReturnType<
   typeof connectWalletRequest
 >;
@@ -110,3 +119,4 @@ export type TokenTransferSuccessAction = ReturnType<
 export type TokenTransferFailureAction = ReturnType<
   typeof tokenTransferFailure
 >;
+export type ClearErrorRequestAction = ReturnType<typeof clearErrorsRequest>;

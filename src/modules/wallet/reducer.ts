@@ -14,6 +14,7 @@ import {
   TOKEN_TRANSFER_FAILURE,
   TOKEN_TRANSFER_REQUEST,
   TOKEN_TRANSFER_SUCCESS,
+  CLEAR_ERRORS_REQUEST,
 } from './actions';
 import { WalletState } from './types';
 
@@ -110,6 +111,13 @@ export function walletReducer(
         isTransfering: false,
         isTransfered: false,
         error,
+      };
+    }
+
+    case CLEAR_ERRORS_REQUEST: {
+      return {
+        ...state,
+        error: null,
       };
     }
 
