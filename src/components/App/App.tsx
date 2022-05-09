@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { Button, Center, Footer, Navbar, Page } from 'decentraland-ui';
+import { Button, Center, Footer, Menu, Navbar, Page } from 'decentraland-ui';
 import { Props } from './App.types';
 import './App.css';
 import { Home } from '../Home';
@@ -16,9 +16,14 @@ const App: React.FC<Props> = ({
     isConnected,
   }) => {
     return isConnected ? (
-      <Link to="/transfer">
-        <Button primary>Transfer</Button>
-      </Link>
+      <>
+        <Menu.Item link={true}>
+          <Link to="/">Home</Link>
+        </Menu.Item>
+        <Link to="/transfer">
+          <Button primary>Transfer</Button>
+        </Link>
+      </>
     ) : (
       <></>
     );
