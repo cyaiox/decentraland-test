@@ -1,0 +1,10 @@
+.vscode/
+node_modules/
+build/
+.env*
+.gitignore
+.git/
+.nvmrc
+buildDockerImageRopsten.sh
+Dockerfile
+README.md
