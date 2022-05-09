@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Navigate, Routes, Route, Link } from 'react-router-dom';
 import { Button, Center, Footer, Menu, Navbar, Page } from 'decentraland-ui';
 import { Props } from './App.types';
 import './App.css';
@@ -44,6 +44,7 @@ const App: React.FC<Props> = ({
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="transfer" element={<Transfer />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         )}
       </Page>
