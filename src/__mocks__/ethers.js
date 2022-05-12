@@ -12,7 +12,7 @@ class mockContractClass {
     };
   }
 
-  balanceOf() {
+  balanceOf(address) {
     return BigNumber.from(100);
   }
 }
