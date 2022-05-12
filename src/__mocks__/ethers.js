@@ -1,3 +1,4 @@
+import { ethers as OriginalEthers } from 'ethers';
 const { ethers, BigNumber } = jest.createMockFromModule('ethers');
 
 BigNumber.from = (value) => ({ toNumber: () => value });
@@ -31,5 +32,7 @@ class mockWeb3Provider {
 ethers.Contract = mockContractClass;
 
 ethers.providers.Web3Provider = mockWeb3Provider;
+
+ethers.utils = { ...OriginalEthers.utils };
 
 export { ethers };
