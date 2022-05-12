@@ -8,7 +8,7 @@ import {
   Toast,
   Toasts,
 } from 'decentraland-ui';
-import { BigNumber } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import { Props } from './Transfer.types';
 import './Transfer.css';
 
@@ -43,13 +43,23 @@ const Transfer: React.FC<Props> = ({
   };
 
   const formatAmount = (value: string) => {
-    return BigNumber.from(value).toNumber();
+    if (value) return BigNumber.from(value).toNumber();
+    return 0;
   };
 
   const validateForm = (e: any) => {
     if (!destAddress || !amount) {
       return;
     }
+
+    if (destAddress && !ethers.utils.isAddress(destAddress)) {
+      return;
+    }
+
+    if (amount && amount <= 0) {
+      return;
+    }
+
     onTransfer(destAddress, amount);
   };
 
