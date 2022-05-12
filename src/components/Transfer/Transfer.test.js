@@ -11,6 +11,10 @@ const testAmount = 100;
 const testAddress = '0x0000000000000000000000000000000000000000';
 
 describe('send transaction', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('send transaction successfully', async () => {
     const { getByPlaceholderText, getByText } = render(<Transfer />);
     const amountInput = getByPlaceholderText('100');
