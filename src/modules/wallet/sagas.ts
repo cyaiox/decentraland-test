@@ -55,7 +55,7 @@ export function* walletSaga() {
   yield takeEvery(TOKEN_TRANSFER_REQUEST, handleTokenTransferRequest);
 }
 
-function* handleConnectWalletRequest() {
+export function* handleConnectWalletRequest() {
   try {
     const signer: ethers.Signer = yield call(() => getSigner());
     const address: string = yield call(() => signer.getAddress());
@@ -68,7 +68,7 @@ function* handleConnectWalletRequest() {
   }
 }
 
-function* handleBalanceTokenRequest() {
+export function* handleBalanceTokenRequest() {
   try {
     const signer: ethers.Signer = yield call(() => getSigner());
     const address: string = yield call(() => signer.getAddress());
@@ -80,7 +80,7 @@ function* handleBalanceTokenRequest() {
   }
 }
 
-function* handleTokenTransferRequest(action: any) {
+export function* handleTokenTransferRequest(action: any) {
   try {
     const { address, amount } = action.payload;
     const token: ethers.Contract = yield call(() => getToken());
