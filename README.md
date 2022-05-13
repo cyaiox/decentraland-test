@@ -1,30 +1,99 @@
-# Dummy Token UI
+# Decentraland Test Task
 
-A simple UI for a [Dummy Token](https://github.com/decentraland/dummy-token). This frontend allows the user to connect their wallet and see their address. It is built using `react` + `redux` + `redux-saga`.
+## Technologies
 
-# Directory structure and standards
+- NodeJS: LTS/Gallium
+- React: 17.0.2
+- Redux: 4.0.5
+- Redux-Saga: 1.1.3
+- Typescript: 4.2.4
+- Jest: 26.6.3
+- Ethers: 5.1.2
+- Decentraland-UI: 3.1.3
 
-The repository splits the `redux` logic into `modules`, which contain all the actions/sagas/reducer/selectors for a specific domain. The `react` components can be found under the `components` directory, each component has its own directory which contains always a `.tsx` file with the component itself and a `.css` file with its styles. The components are always pure, and if they need to be connected to the redux store it is done by wrapping it with a `.container.tsx` file that maps the necessary properties and callbacks to extract the data from the store and dispatch the required actions.
+## Project Setup
 
-# Task
+To run this project, install it locally using npm:
 
-The current state of the frontend allows the user to connect their wallet and see their address. Your task is add the following features:
+1. Copy the example environment file and fill the variables
 
-- Allow the user to see their Dummy Token balance once their wallet is connected
-- Allow the user to transfer Dummy Tokens
+```
+cp .env.example .env
+```
 
-To achieve this you will need to modify the existing redux module and/or add new ones, also you will need to adapt the react components to allow the user to fullfil all the necessary requirements by modifying the existing components/containers and/or adding new ones as well.
+2. Install the npm dependencies
 
-You will need to make use of `decentraland-ui` components to build the missing parts of the frontend. You can see examples of the available components here: [Decentraland UI](https://ui.decentraland.org/).
+```
+npm install
+```
 
-The final state of the frontend should look something like this:
+3. Start the project
 
-![Screencast](https://user-images.githubusercontent.com/2781777/115337070-bf24b980-a176-11eb-89e5-d4690893271a.gif)
+```
+npm start
+```
 
-## Setup
+You could use this deployed Dummy token in the Ropsten testnet:
 
-1. Run `cp .env.example .env` and fill the environment variables
-2. Run `npm install`
-3. Run `npm start`
+```
+REACT_APP_TOKEN_ADDRESS=0xA8a16e22ec7cEF817512f2F7AC08913177BA7e08
+```
 
-You will also need to setup a local ethereum development environment and deploy the Dummy Token there, to do that [follow these instructions](https://github.com/decentraland/dummy-token#setup).
+Deployer Private Key Wallet with Dummy token and ETH funds in Ropsten
+
+```
+ea4539c43abc282e07e46da4ae4e9c1ede18f7f762136beff237e7345d10aa18
+```
+
+or you could setup a local ethereum development environment and deploy the Dummy Token there, to do that [follow these instructions](https://github.com/decentraland/dummy-token#setup).
+
+## Deployment
+
+### Compiles and minifies for production
+
+1. Compile the project
+
+```
+npm run build
+```
+
+2. Copy the folder `/dist` to your public webserver.
+
+```
+ex. Nginx: /usr/share/nginx/html
+ex. Apache: /var/www/html
+```
+
+### Using Docker
+
+1. Build the docker image
+
+```
+docker build --build-arg REACT_APP_TOKEN_ADDRESS=0xA8a16e22ec7cEF817512f2F7AC08913177BA7e08 . -t decentraland/webapp:latest
+```
+
+2. Start the docker image
+
+```
+docker run -p 80:80 -d decentraland/webapp:latest
+```
+
+## Testing
+
+### Run your unit tests
+
+```
+npm run test
+```
+
+### Using Docker
+
+```
+docker run decentraland/webapp:latest npm run test
+```
+
+### Lint and fixes files
+
+```
+npm run lint
+```
