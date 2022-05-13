@@ -7,7 +7,7 @@ import { formatAddress } from '../../utils';
 const Home: React.FC<Props> = ({ address, balance, error, getBalance }) => {
   React.useEffect(() => {
     getBalance();
-  }, []);
+  }, [getBalance]);
 
   return (
     <Page className="Home">
